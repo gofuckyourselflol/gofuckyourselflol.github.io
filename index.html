@@ -130,7 +130,7 @@
             margin-bottom: 30px;
         }
         
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 18px;
             margin-bottom: 25px;
@@ -140,7 +140,7 @@
             transition: all 0.3s ease;
         }
         
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
@@ -215,8 +215,50 @@
             resize: vertical;
         }
         
-        .news-container {
+        .file-upload {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-upload-label {
+            display: block;
+            padding: 18px;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            text-align: center;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-upload-label:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .file-upload-label i {
+            margin-right: 10px;
+        }
+        
+        .image-preview {
             display: none;
+            max-width: 100%;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .news-container {
             width: 100%;
             max-width: 1000px;
             margin-top: 40px;
@@ -249,6 +291,15 @@
             line-height: 1.7;
             margin-bottom: 20px;
             font-size: 1.1rem;
+        }
+        
+        .news-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-height: 400px;
+            object-fit: cover;
         }
         
         .news-date {
@@ -393,6 +444,15 @@
             <h3>Панель управления контентом</h3>
             <input type="text" id="newsTitle" placeholder="Заголовок новости">
             <textarea id="newsContent" placeholder="Текст новости"></textarea>
+            
+            <div class="file-upload">
+                <label for="newsImage" class="file-upload-label">
+                    <i class="fas fa-image"></i> <span id="fileLabelText">Выберите изображение или перетащите его сюда</span>
+                </label>
+                <input type="file" id="newsImage" accept="image/*" onchange="previewImage(this)">
+                <img id="imagePreview" class="image-preview" alt="Предпросмотр изображения">
+            </div>
+            
             <button onclick="addNews()"><i class="fas fa-plus-circle"></i> Опубликовать новость</button>
         </div>
         
@@ -413,6 +473,15 @@
             <h3>Редактирование новости</h3>
             <input type="text" id="editTitle" placeholder="Заголовок новости">
             <textarea id="editContent" placeholder="Текст новости"></textarea>
+            
+            <div class="file-upload">
+                <label for="editImage" class="file-upload-label">
+                    <i class="fas fa-image"></i> <span id="editFileLabelText">Изменить изображение</span>
+                </label>
+                <input type="file" id="editImage" accept="image/*" onchange="previewEditImage(this)">
+                <img id="editImagePreview" class="image-preview" alt="Предпросмотр изображения">
+            </div>
+            
             <div class="modal-buttons">
                 <button class="btn-secondary" onclick="closeEditModal()"><i class="fas fa-times"></i> Отмена</button>
                 <button onclick="saveEditedNews()"><i class="fas fa-save"></i> Сохранить изменения</button>
@@ -433,12 +502,62 @@
     
     <script>
         // Секретный ключ доступа
-        const SECRET_KEY = "xuesos228";
+        const SECRET_KEY = "NV2025@Vector";
         
         // Переменные для управления состоянием
         let news = [];
         let currentEditId = null;
         let currentDeleteId = null;
+        
+        // Загрузка данных из localStorage при загрузке страницы
+        function loadNews() {
+            const savedNews = localStorage.getItem('newsData');
+            if (savedNews) {
+                news = JSON.parse(savedNews);
+                renderNews();
+            }
+        }
+        
+        // Сохранение данных в localStorage
+        function saveNews() {
+            localStorage.setItem('newsData', JSON.stringify(news));
+        }
+        
+        // Преобразование изображения в base64
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+        
+        // Предпросмотр изображения при загрузке
+        async function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const labelText = document.getElementById('fileLabelText');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                labelText.textContent = file.name;
+                preview.src = await getBase64(file);
+                preview.style.display = 'block';
+            }
+        }
+        
+        // Предпросмотр изображения при редактировании
+        async function previewEditImage(input) {
+            const preview = document.getElementById('editImagePreview');
+            const labelText = document.getElementById('editFileLabelText');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                labelText.textContent = file.name;
+                preview.src = await getBase64(file);
+                preview.style.display = 'block';
+            }
+        }
         
         // Проверка ключа доступа
         function checkAccessKey() {
@@ -458,28 +577,44 @@
         }
         
         // Добавление новости
-        function addNews() {
+        async function addNews() {
             const title = document.getElementById('newsTitle').value;
             const content = document.getElementById('newsContent').value;
+            const imageInput = document.getElementById('newsImage');
             
             if (!title || !content) {
-                showNotification('Заполните все поля!', true);
+                showNotification('Заполните все обязательные поля!', true);
                 return;
+            }
+            
+            let imageBase64 = '';
+            if (imageInput.files && imageInput.files[0]) {
+                try {
+                    imageBase64 = await getBase64(imageInput.files[0]);
+                } catch (error) {
+                    showNotification('Ошибка загрузки изображения!', true);
+                    return;
+                }
             }
             
             const newNews = {
                 id: generateId(),
                 title: title,
                 content: content,
+                image: imageBase64,
                 date: new Date()
             };
             
             news.unshift(newNews);
+            saveNews();
             renderNews();
             
             // Очищаем форму
             document.getElementById('newsTitle').value = '';
             document.getElementById('newsContent').value = '';
+            document.getElementById('newsImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('fileLabelText').textContent = 'Выберите изображение или перетащите его сюда';
             
             showNotification('Новость успешно опубликована!', false);
         }
@@ -490,134 +625,13 @@
             if (newsItem) {
                 document.getElementById('editTitle').value = newsItem.title;
                 document.getElementById('editContent').value = newsItem.content;
-                currentEditId = id;
-                document.getElementById('editModal').style.display = 'flex';
-            }
-        }
-        
-        // Сохранение отредактированной новости
-        function saveEditedNews() {
-            if (currentEditId) {
-                const title = document.getElementById('editTitle').value;
-                const content = document.getElementById('editContent').value;
                 
-                if (!title || !content) {
-                    showNotification('Заполните все поля!', true);
-                    return;
-                }
+                const preview = document.getElementById('editImagePreview');
+                const labelText = document.getElementById('editFileLabelText');
                 
-                const index = news.findIndex(item => item.id === currentEditId);
-                if (index !== -1) {
-                    news[index].title = title;
-                    news[index].content = content;
-                    renderNews();
-                    closeEditModal();
-                    showNotification('Новость успешно отредактирована!', false);
-                }
-            }
-        }
-        
-        // Закрытие модального окна редактирования
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-            currentEditId = null;
-        }
-        
-        // Запрос на удаление новости
-        function deleteNews(id) {
-            currentDeleteId = id;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-        
-        // Подтверждение удаления новости
-        function confirmDelete() {
-            if (currentDeleteId) {
-                news = news.filter(item => item.id !== currentDeleteId);
-                renderNews();
-                closeDeleteModal();
-                showNotification('Новость успешно удалена!', false);
-            }
-        }
-        
-        // Закрытие модального окна удаления
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-            currentDeleteId = null;
-        }
-        
-        // Отображение новостей
-        function renderNews() {
-            const newsContainer = document.getElementById('newsContainer');
-            const emptyState = document.getElementById('emptyState');
-            
-            if (news.length === 0) {
-                newsContainer.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
-            }
-            
-            newsContainer.style.display = 'block';
-            emptyState.style.display = 'none';
-            
-            newsContainer.innerHTML = '';
-            
-            news.forEach(item => {
-                const newsItem = document.createElement('div');
-                newsItem.className = 'news-item';
-                
-                const dateString = item.date.toLocaleString('ru-RU', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                newsItem.innerHTML = `
-                    <div class="news-actions">
-                        <button class="btn-secondary btn-small" onclick="editNews('${item.id}')">
-                            <i class="fas fa-edit"></i> Редактировать
-                        </button>
-                        <button class="btn-danger btn-small" onclick="deleteNews('${item.id}')">
-                            <i class="fas fa-trash"></i> Удалить
-                        </button>
-                    </div>
-                    <h3>${item.title}</h3>
-                    <p>${item.content}</p>
-                    <p class="news-date">Опубликовано: ${dateString}</p>
-                `;
-                
-                newsContainer.appendChild(newsItem);
-            });
-        }
-        
-        // Показать уведомление
-        function showNotification(message, isError) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notification-text');
-            
-            notificationText.textContent = message;
-            notification.className = isError ? 'notification error' : 'notification';
-            notification.innerHTML = isError ? 
-                `<i class="fas fa-exclamation-circle"></i> <span id="notification-text">${message}</span>` :
-                `<i class="fas fa-check-circle"></i> <span id="notification-text">${message}</span>`;
-                
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Инициализация при загрузке
-        window.onload = function() {
-            // Можно загрузить новости из localStorage при наличии
-            // const savedNews = localStorage.getItem('news');
-            // if (savedNews) {
-            //     news = JSON.parse(savedNews);
-            //     renderNews();
-            // }
-        };
-    </script>
-</body>
-</html>
+                if (newsItem.image) {
+                    preview.src = newsItem.image;
+                    preview.style.display = 'block';
+                    labelText.textContent = 'Изменить текущее изображение';
+                } else {
+             
