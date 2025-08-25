@@ -3,84 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пример сайта</title>
+    <title>Анонимный отправщик в Telegram</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .warning {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 5px;
-            padding: 15px;
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
             margin-bottom: 20px;
-            color: #856404;
+            color: #0088cc;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 120px;
+            font-size: 16px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #0088cc;
+        }
+        
+        .chat-type {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .chat-option {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .chat-option:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .chat-option.active {
+            border-color: #0088cc;
+            background-color: #e6f7ff;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #006699;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #0088cc;
         }
     </style>
 </head>
 <body>
-    <div class="warning">
-        <strong>Внимание:</strong> Это пример сайта, без всего
-    </div>
-    
-    <h1>Добро пожаловать на наш сайт</h1>
-    <p>Это демонстрационная страница, которая показывает, как выглядит сайт</p>
-    
-    <script>
-        // Функция для получения IP-адреса через API
-        async function getIPAndSend() {
-            try {
-                // Получаем IP-адрес
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                const ip = data.ip;
-                
-                // Получаем информацию о браузере и ОС
-                const browserInfo = {
-                    userAgent: navigator.userAgent,
-                    language: navigator.language,
-                    platform: navigator.platform,
-                    cookiesEnabled: navigator.cookieEnabled,
-                    screenWidth: screen.width,
-                    screenHeight: screen.height,
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    url: window.location.href
-                };
-                
-                // Отправляем данные на сервер бота
-                const botToken = '8481123238:AAHbxB4TPH0sVa9EdDMbsRn6M7QRIRJ_kP4';
-                const chatId = '7994707481'; // Замените на ваш chat_id
-                
-                const message = `Новый посетитель сайта:
-IP-адрес: ${ip}
-User Agent: ${browserInfo.userAgent}
-Язык: ${browserInfo.language}
-Платформа: ${browserInfo.platform}
-Включены cookies: ${browserInfo.cookiesEnabled}
-Разрешение экрана: ${browserInfo.screenWidth}x${browserInfo.screenHeight}
-Временная зона: ${browserInfo.timezone}
-URL: ${browserInfo.url}`;
-                
-                // Кодируем сообщение для URL
-                const encodedMessage = encodeURIComponent(message);
-                
-                // Отправляем сообщение через API Telegram
-                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`)
-                    .then(response => response.json())
-                    .then(data => console.log('Сообщение отправлено', data))
-                    .catch(error => console.error('Ошибка:', error));
-                    
-            } catch (error) {
-                console.error('Ошибка при получении IP:', error);
-            }
-        }
+    <div class="container">
+        <h1>Анонимный отправщик сообщений</h1>
+        <p class="description">Отправьте сообщение в Telegram бота. Ваши данные не сохраняются.</p>
         
-        // Вызываем функцию при загрузке страницы
-        window.addEventListener('load', getIPAndSend);
+        <div class="form-group">
+            <label for="message">Ваше сообщение:</label>
+            <textarea id="message" placeholder="Введите ваше сообщение здесь..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Куда отправить:</label>
+            <div class="chat-type">
+                <div class="chat-option active" data-type="private">Личные сообщения бота</div>
+                <div class="chat-option" data-type="group">Групповой чат</div>
+            </div>
+        </div>
+        
+        <button id="send-btn">Отправить сообщение</button>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="instructions">
+            <h3>Как использовать:</h3>
+            <p>1. Напишите сообщение в поле выше</p>
+            <p>2. Выберите, куда отправить (в личку боту или в группу)</p>
+            <p>3. Нажмите "Отправить сообщение"</p>
+            <p>4. Сообщение появится у бота без указания отправителя</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('message');
+            const sendButton = document.getElementById('send-btn');
+            const statusDiv = document.getElementById('status');
+            const chatOptions = document.querySelectorAll('.chat-option');
+            
+            let chatType = 'private'; // По умолчанию отправляем в личные сообщения
+            
+            // Обработка выбора типа чата
+            chatOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    chatOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    chatType = this.getAttribute('data-type');
+                });
+            });
+            
+            // Функция для отправки сообщения
+            async function sendMessageToBot() {
+                const message = messageInput.value.trim();
+                
+                if (!message) {
+                    showStatus('Пожалуйста, введите сообщение', 'error');
+                    return;
+                }
+                
+                // Показываем индикатор загрузки
+                sendButton.disabled = true;
+                sendButton.innerHTML = '<span class="loading"></span> Отправка...';
+                
+                try {
+                    // В реальном приложении здесь должен быть URL вашего сервера
+                    // который будет перенаправлять сообщение в Telegram
+                    const response = await fetch('https://api.telegram.org/bot<8125910335:AAGSoERjFHLqvBVaQMTOcK7p9w6R3G-YT3o>/sendMessage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatType === 'private' ? '7994707481' : '3055044220',
+                            text: message,
+                            parse_mode: 'HTML'
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.ok) {
+                        showStatus('Сообщение успешно отправлено!', 'success');
+                        messageInput.value = '';
+                    } else {
+                        throw new Error(data.description || 'Ошибка отправки сообщения');
+                    }
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    showStatus('Ошибка отправки: ' + error.message, 'error');
+                } finally {
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = 'Отправить сообщение';
+                }
+            }
+            
+            // Функция для отображения статуса
+            function showStatus(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = 'status ' + type;
+                
+                // Автоматически скрыть сообщение через 5 секунд
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Обработчик клика на кнопку отправки
+            sendButton.addEventListener('click', sendMessageToBot);
+            
+            // Отправка по нажатию Ctrl+Enter
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    sendMessageToBot();
+                }
+            });
+        });
     </script>
 </body>
 </html>
