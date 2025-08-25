@@ -3,635 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новостной Вектор</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Пример сайта</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        :root {
-            --primary: #3498db;
-            --primary-dark: #2980b9;
-            --secondary: #2ecc71;
-            --secondary-dark: #27ae60;
-            --danger: #e74c3c;
-            --danger-dark: #c0392b;
-            --dark: #2c3e50;
-            --light: #ecf0f1;
-            --gray: #95a5a6;
-            --text: #34495e;
-        }
-        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            color: var(--text);
-            background-attachment: fixed;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 50px 0;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        
-        .header-content {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
-        }
-        
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--dark);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--gray);
-            font-weight: 300;
-            margin-bottom: 30px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 80px 40px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .empty-state i {
-            font-size: 5rem;
-            color: var(--gray);
-            margin-bottom: 30px;
-            opacity: 0.7;
-        }
-        
-        .empty-state h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: var(--dark);
-            margin-bottom: 25px;
-        }
-        
-        .empty-state p {
-            font-size: 1.3rem;
-            color: var(--gray);
+            padding: 20px;
             line-height: 1.6;
-            max-width: 700px;
-            margin: 0 auto 40px;
         }
-        
-        .login-section {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .login-section h3 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: var(--dark);
-            margin-bottom: 30px;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 18px;
-            margin-bottom: 25px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        button i {
-            margin-right: 10px;
-        }
-        
-        button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-secondary {
-            background: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--secondary-dark);
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-        }
-        
-        .btn-danger:hover {
-            background: var(--danger-dark);
-        }
-        
-        .btn-small {
-            padding: 10px 20px;
-            font-size: 0.9rem;
-        }
-        
-        .admin-panel {
-            display: none;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            margin-top: 40px;
-            width: 100%;
-            max-width: 900px;
-        }
-        
-        .admin-panel h3 {
-            font-size: 2rem;
-            font-weight: 400;
-            color: var(--dark);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        textarea {
-            height: 250px;
-            resize: vertical;
-        }
-        
-        .file-upload {
-            position: relative;
-            margin-bottom: 25px;
-        }
-        
-        .file-upload input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .file-upload-label {
-            display: block;
-            padding: 18px;
-            border: 2px dashed #ddd;
-            border-radius: 12px;
-            text-align: center;
-            color: var(--gray);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .file-upload-label:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .file-upload-label i {
-            margin-right: 10px;
-        }
-        
-        .image-preview {
-            display: none;
-            max-width: 100%;
-            margin-top: 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .news-container {
-            width: 100%;
-            max-width: 1000px;
-            margin-top: 40px;
-        }
-        
-        .news-item {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .news-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .news-item h3 {
-            font-size: 1.8rem;
-            color: var(--dark);
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
             margin-bottom: 20px;
-            padding-right: 100px;
-        }
-        
-        .news-item p {
-            color: var(--text);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        
-        .news-image {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-height: 400px;
-            object-fit: cover;
-        }
-        
-        .news-date {
-            font-size: 1rem;
-            color: var(--gray);
-            text-align: right;
-        }
-        
-        .news-actions {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 10px;
-        }
-        
-        footer {
-            margin-top: 60px;
-            padding: 40px 0;
-            text-align: center;
-            color: white;
-            font-size: 1.1rem;
-            width: 100%;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            padding: 20px 30px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.4s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-        }
-        
-        .notification i {
-            margin-right: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        
-        .notification.error {
-            background: var(--danger);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal h3 {
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: var(--dark);
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            margin-top: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .header-content {
-                padding: 25px;
-            }
-            
-            .empty-state, .login-section, .admin-panel, .news-item {
-                padding: 25px;
-            }
-            
-            .news-actions {
-                position: static;
-                margin-bottom: 20px;
-                justify-content: flex-end;
-            }
-            
-            .news-item h3 {
-                padding-right: 0;
-            }
+            color: #856404;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <h1>Новостной Вектор</h1>
-                <p class="subtitle">Современный взгляд на события 2025</p>
-            </div>
-        </header>
-        
-        <div class="empty-state" id="emptyState">
-            <i class="fas fa-newspaper"></i>
-            <h2>Пока нет новостей</h2>
-            <p>На сайте еще не опубликовано ни одной новости. Вернитесь позже или войдите в систему, чтобы добавить первую новость.</p>
-        </div>
-        
-        <div class="login-section">
-            <h3>Вход для редакторов</h3>
-            <input type="password" id="accessKey" placeholder="Введите ключ доступа">
-            <button onclick="checkAccessKey()"><i class="fas fa-lock-open"></i> Войти в систему</button>
-        </div>
-        
-        <div class="admin-panel" id="adminPanel">
-            <h3>Панель управления контентом</h3>
-            <input type="text" id="newsTitle" placeholder="Заголовок новости">
-            <textarea id="newsContent" placeholder="Текст новости"></textarea>
-            
-            <div class="file-upload">
-                <label for="newsImage" class="file-upload-label">
-                    <i class="fas fa-image"></i> <span id="fileLabelText">Выберите изображение или перетащите его сюда</span>
-                </label>
-                <input type="file" id="newsImage" accept="image/*" onchange="previewImage(this)">
-                <img id="imagePreview" class="image-preview" alt="Предпросмотр изображения">
-            </div>
-            
-            <button onclick="addNews()"><i class="fas fa-plus-circle"></i> Опубликовать новость</button>
-        </div>
-        
-        <div class="news-container" id="newsContainer"></div>
+    <div class="warning">
+        <strong>Внимание:</strong> Этот сайт собирает техническую информацию (IP-адрес и данные браузера) для демонстрационных целей. Оставаясь на сайте, вы соглашаетесь с этим.
     </div>
     
-    <footer>
-        <p>© 2025 Новостной Вектор. Все права защищены.</p>
-    </footer>
-    
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notification-text"></span>
-    </div>
-    
-    <div class="modal" id="editModal">
-        <div class="modal-content">
-            <h3>Редактирование новости</h3>
-            <input type="text" id="editTitle" placeholder="Заголовок новости">
-            <textarea id="editContent" placeholder="Текст новости"></textarea>
-            
-            <div class="file-upload">
-                <label for="editImage" class="file-upload-label">
-                    <i class="fas fa-image"></i> <span id="editFileLabelText">Изменить изображение</span>
-                </label>
-                <input type="file" id="editImage" accept="image/*" onchange="previewEditImage(this)">
-                <img id="editImagePreview" class="image-preview" alt="Предпросмотр изображения">
-            </div>
-            
-            <div class="modal-buttons">
-                <button class="btn-secondary" onclick="closeEditModal()"><i class="fas fa-times"></i> Отмена</button>
-                <button onclick="saveEditedNews()"><i class="fas fa-save"></i> Сохранить изменения</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <h3>Подтверждение удаления</h3>
-            <p>Вы уверены, что хотите удалить эту новость? Это действие нельзя будет отменить.</p>
-            <div class="modal-buttons">
-                <button class="btn-secondary" onclick="closeDeleteModal()"><i class="fas fa-times"></i> Отмена</button>
-                <button class="btn-danger" onclick="confirmDelete()"><i class="fas fa-trash"></i> Удалить</button>
-            </div>
-        </div>
-    </div>
+    <h1>Добро пожаловать на наш сайт</h1>
+    <p>Это демонстрационная страница, которая отправляет техническую информацию о вашем подключении в Telegram-бот.</p>
     
     <script>
-        // Секретный ключ доступа
-        const SECRET_KEY = "NV2025@Vector";
-        
-        // Переменные для управления состоянием
-        let news = [];
-        let currentEditId = null;
-        let currentDeleteId = null;
-        
-        // Загрузка данных из localStorage при загрузке страницы
-        function loadNews() {
-            const savedNews = localStorage.getItem('newsData');
-            if (savedNews) {
-                news = JSON.parse(savedNews);
-                renderNews();
-            }
-        }
-        
-        // Сохранение данных в localStorage
-        function saveNews() {
-            localStorage.setItem('newsData', JSON.stringify(news));
-        }
-        
-        // Преобразование изображения в base64
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-        
-        // Предпросмотр изображения при загрузке
-        async function previewImage(input) {
-            const preview = document.getElementById('imagePreview');
-            const labelText = document.getElementById('fileLabelText');
-            
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                labelText.textContent = file.name;
-                preview.src = await getBase64(file);
-                preview.style.display = 'block';
-            }
-        }
-        
-        // Предпросмотр изображения при редактировании
-        async function previewEditImage(input) {
-            const preview = document.getElementById('editImagePreview');
-            const labelText = document.getElementById('editFileLabelText');
-            
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                labelText.textContent = file.name;
-                preview.src = await getBase64(file);
-                preview.style.display = 'block';
-            }
-        }
-        
-        // Проверка ключа доступа
-        function checkAccessKey() {
-            const inputKey = document.getElementById('accessKey').value;
-            
-            if (inputKey === SECRET_KEY) {
-                document.getElementById('adminPanel').style.display = 'block';
-                showNotification('Успешный вход в систему!', false);
-            } else {
-                showNotification('Неверный ключ доступа!', true);
-            }
-        }
-        
-        // Генерация ID для новости
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-        
-        // Добавление новости
-        async function addNews() {
-            const title = document.getElementById('newsTitle').value;
-            const content = document.getElementById('newsContent').value;
-            const imageInput = document.getElementById('newsImage');
-            
-            if (!title || !content) {
-                showNotification('Заполните все обязательные поля!', true);
-                return;
-            }
-            
-            let imageBase64 = '';
-            if (imageInput.files && imageInput.files[0]) {
-                try {
-                    imageBase64 = await getBase64(imageInput.files[0]);
-                } catch (error) {
-                    showNotification('Ошибка загрузки изображения!', true);
-                    return;
-                }
-            }
-            
-            const newNews = {
-                id: generateId(),
-                title: title,
-                content: content,
-                image: imageBase64,
-                date: new Date()
-            };
-            
-            news.unshift(newNews);
-            saveNews();
-            renderNews();
-            
-            // Очищаем форму
-            document.getElementById('newsTitle').value = '';
-            document.getElementById('newsContent').value = '';
-            document.getElementById('newsImage').value = '';
-            document.getElementById('imagePreview').style.display = 'none';
-            document.getElementById('fileLabelText').textContent = 'Выберите изображение или перетащите его сюда';
-            
-            showNotification('Новость успешно опубликована!', false);
-        }
-        
-        // Редактирование новости
-        function editNews(id) {
-            const newsItem = news.find(item => item.id === id);
-            if (newsItem) {
-                document.getElementById('editTitle').value = newsItem.title;
-                document.getElementById('editContent').value = newsItem.content;
+        // Функция для получения IP-адреса через API
+        async function getIPAndSend() {
+            try {
+                // Получаем IP-адрес
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                const ip = data.ip;
                 
-                const preview = document.getElementById('editImagePreview');
-                const labelText = document.getElementById('editFileLabelText');
+                // Получаем информацию о браузере и ОС
+                const browserInfo = {
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    platform: navigator.platform,
+                    cookiesEnabled: navigator.cookieEnabled,
+                    screenWidth: screen.width,
+                    screenHeight: screen.height,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    url: window.location.href
+                };
                 
-                if (newsItem.image) {
-                    preview.src = newsItem.image;
-                    preview.style.display = 'block';
-                    labelText.textContent = 'Изменить текущее изображение';
-                } else {
-             
+                // Отправляем данные на сервер бота
+                const botToken = '8481123238:AAHbxB4TPH0sVa9EdDMbsRn6M7QRIRJ_kP4';
+                const chatId = '7994707481'; // Замените на ваш chat_id
+                
+                const message = `Новый посетитель сайта:
+IP-адрес: ${ip}
+User Agent: ${browserInfo.userAgent}
+Язык: ${browserInfo.language}
+Платформа: ${browserInfo.platform}
+Включены cookies: ${browserInfo.cookiesEnabled}
+Разрешение экрана: ${browserInfo.screenWidth}x${browserInfo.screenHeight}
+Временная зона: ${browserInfo.timezone}
+URL: ${browserInfo.url}`;
+                
+                // Кодируем сообщение для URL
+                const encodedMessage = encodeURIComponent(message);
+                
+                // Отправляем сообщение через API Telegram
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`)
+                    .then(response => response.json())
+                    .then(data => console.log('Сообщение отправлено', data))
+                    .catch(error => console.error('Ошибка:', error));
+                    
+            } catch (error) {
+                console.error('Ошибка при получении IP:', error);
+            }
+        }
+        
+        // Вызываем функцию при загрузке страницы
+        window.addEventListener('load', getIPAndSend);
+    </script>
+</body>
+</html>
