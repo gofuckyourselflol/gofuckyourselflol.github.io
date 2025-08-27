@@ -3,279 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анонимный отправщик в Telegram</title>
+    <title>Переход на РБК</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #0088cc;
-        }
-        
-        .description {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #666;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: vertical;
-            min-height: 120px;
-            font-size: 16px;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #0088cc;
-        }
-        
-        .chat-type {
+            font-family: Arial, sans-serif;
             display: flex;
-            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
             margin-bottom: 20px;
         }
-        
-        .chat-option {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .chat-option:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .chat-option.active {
-            border-color: #0088cc;
-            background-color: #e6f7ff;
-        }
-        
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #0088cc;
+        .popa-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
             transition: background-color 0.3s;
         }
-        
-        button:hover {
-            background-color: #006699;
+        .popa-button:hover {
+            background-color: #0056b3;
         }
-        
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .status {
+        .note {
             margin-top: 20px;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            display: none;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            display: block;
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            display: block;
-        }
-        
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .instructions {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f0f8ff;
-            border-radius: 5px;
             font-size: 14px;
-        }
-        
-        .instructions h3 {
-            margin-bottom: 10px;
-            color: #0088cc;
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Анонимный отправщик сообщений</h1>
-        <p class="description">Отправьте сообщение в Telegram бота. Ваши данные не сохраняются.</p>
-        
-        <div class="form-group">
-            <label for="message">Ваше сообщение:</label>
-            <textarea id="message" placeholder="Введите ваше сообщение здесь..."></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label>Куда отправить:</label>
-            <div class="chat-type">
-                <div class="chat-option active" data-type="private">Личные сообщения бота</div>
-                <div class="chat-option" data-type="group">Групповой чат</div>
-            </div>
-        </div>
-        
-        <button id="send-btn">Отправить сообщение</button>
-        
-        <div id="status" class="status"></div>
-        
-        <div class="instructions">
-            <h3>Как использовать:</h3>
-            <p>1. Напишите сообщение в поле выше</p>
-            <p>2. Выберите, куда отправить (в личку боту или в группу)</p>
-            <p>3. Нажмите "Отправить сообщение"</p>
-            <p>4. Сообщение появится у бота без указания отправителя</p>
-        </div>
+        <h1>Нажмите кнопку для перехода на сайт РБ</h1>
+        <button class="popa-button" onclick="redirectToRB()">КНОПКА ПОПА</button>
+        <p class="note">После нажатия кнопки вы будете перенаправлены на сайт rbc.ru</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const messageInput = document.getElementById('message');
-            const sendButton = document.getElementById('send-btn');
-            const statusDiv = document.getElementById('status');
-            const chatOptions = document.querySelectorAll('.chat-option');
-            
-            let chatType = 'private'; // По умолчанию отправляем в личные сообщения
-            
-            // Обработка выбора типа чата
-            chatOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    chatOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    chatType = this.getAttribute('data-type');
-                });
-            });
-            
-            // Функция для отправки сообщения
-            async function sendMessageToBot() {
-                const message = messageInput.value.trim();
-                
-                if (!message) {
-                    showStatus('Пожалуйста, введите сообщение', 'error');
-                    return;
-                }
-                
-                // Показываем индикатор загрузки
-                sendButton.disabled = true;
-                sendButton.innerHTML = '<span class="loading"></span> Отправка...';
-                
-                try {
-                    // В реальном приложении здесь должен быть URL вашего сервера
-                    // который будет перенаправлять сообщение в Telegram
-                    const response = await fetch('https://api.telegram.org/bot<8125910335:AAGSoERjFHLqvBVaQMTOcK7p9w6R3G-YT3o>/sendMessage', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            chat_id: chatType === 'private' ? '7994707481' : '3055044220',
-                            text: message,
-                            parse_mode: 'HTML'
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.ok) {
-                        showStatus('Сообщение успешно отправлено!', 'success');
-                        messageInput.value = '';
-                    } else {
-                        throw new Error(data.description || 'Ошибка отправки сообщения');
-                    }
-                } catch (error) {
-                    console.error('Ошибка:', error);
-                    showStatus('Ошибка отправки: ' + error.message, 'error');
-                } finally {
-                    sendButton.disabled = false;
-                    sendButton.innerHTML = 'Отправить сообщение';
-                }
-            }
-            
-            // Функция для отображения статуса
-            function showStatus(message, type) {
-                statusDiv.textContent = message;
-                statusDiv.className = 'status ' + type;
-                
-                // Автоматически скрыть сообщение через 5 секунд
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-                }, 5000);
-            }
-            
-            // Обработчик клика на кнопку отправки
-            sendButton.addEventListener('click', sendMessageToBot);
-            
-            // Отправка по нажатию Ctrl+Enter
-            messageInput.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 'Enter') {
-                    sendMessageToBot();
-                }
-            });
-        });
+        function redirectToRB() {
+            // Перенаправление на сайт РБК
+            window.location.href = 'https://www.rbc.ru';
+        }
     </script>
 </body>
 </html>
