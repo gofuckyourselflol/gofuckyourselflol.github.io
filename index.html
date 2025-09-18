@@ -3,60 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Переход на РБК</title>
+    <title>Арбузный рай - Переход в Roblox</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%23077F00"/><circle cx="80" cy="80" r="50" fill="%23DC143C"/><circle cx="250" cy="120" r="60" fill="%23DC143C"/><circle cx="150" cy="250" r="55" fill="%23DC143C"/><circle cx="300" cy="300" r="45" fill="%23DC143C"/><circle cx="80" cy="280" r="65" fill="%23DC143C"/><path d="M80 80 L30 130 L130 130 Z" fill="%23006600"/><path d="M250 120 L190 180 L310 180 Z" fill="%23006600"/><path d="M150 250 L100 300 L200 300 Z" fill="%23006600"/><path d="M300 300 L255 345 L345 345 Z" fill="%23006600"/><path d="M80 280 L15 345 L145 345 Z" fill="%23006600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
             text-align: center;
             padding: 20px;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        
+        .container {
+            max-width: 800px;
+            background: rgba(0, 80, 0, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 5px solid #ff4d4d;
+        }
+        
         h1 {
-            color: #333;
+            font-size: 3rem;
             margin-bottom: 20px;
+            color: #ff4d4d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        .popa-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #007bff;
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #ff4d4d;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .popa-button:hover {
-            background-color: #0056b3;
-        }
-        .note {
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid white;
+            font-weight: bold;
             margin-top: 20px;
-            font-size: 14px;
-            color: #666;
+        }
+        
+        .btn:hover {
+            background: white;
+            color: #ff4d4d;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .watermelon-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .info {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #ccc;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Нажмите кнопку для перехода на сайт РБ</h1>
-        <button class="popa-button" onclick="redirectToRB()">КНОПКА ПОПА</button>
-        <p class="note">После нажатия кнопки вы будете перенаправлены на сайт rbc.ru</p>
+        <div class="watermelon-icon">🍉</div>
+        <h1>Добро пожаловать нахуи</h1>
+        <p>Нажми на кнопку ниже, иначе бездарь</p>
+        <a href="https://www.roblox.com" class="btn">Пойти нахуи</a>
+        <p class="info">После нажатия кнопки вы будете перенаправлены на крутои саит</p>
     </div>
 
     <script>
-        function redirectToRB() {
-            // Перенаправление на сайт РБК
-            window.location.href = 'https://www.rbc.ru';
+        // Функция отправки уведомления в Telegram
+        function sendTelegramNotification() {
+            // Здесь должны быть реальные данные вашего бота
+            const botToken = '8299602303:AAGISFlhIwemawh7Uh7ecL2SgDB0oVGrI40'; // Замените на токен вашего бота
+            const chatId = '8030758731'; // Замените на ваш chat_id
+            
+            // Текст сообщения
+            const message = `🚀 Новый посетитель на сайте! 
+Время: ${new Date().toLocaleString('ru-RU')}
+Страница: ${window.location.href}
+User-Agent: ${navigator.userAgent}`;
+            
+            // Кодируем сообщение для URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Формируем URL для запроса к API Telegram
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
+            
+            // Отправляем запрос
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Уведомление отправлено в Telegram');
+                })
+                .catch(error => {
+                    console.error('Ошибка отправки уведомления:', error);
+                });
         }
+        
+        // Вызываем функцию при загрузке страницы
+        window.addEventListener('load', sendTelegramNotification);
     </script>
 </body>
 </html>
